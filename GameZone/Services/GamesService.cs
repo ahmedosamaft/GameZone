@@ -13,7 +13,7 @@ namespace GameZone.Services
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
-            _imagesPath = $"{_webHostEnvironment.WebRootPath}/assets/images/games";
+            _imagesPath = $"{_webHostEnvironment.WebRootPath}{FileSettings.ImagesPath}";
         }
 
         public async Task Create (CreateGameFormViewModel model)

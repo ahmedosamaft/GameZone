@@ -7,7 +7,7 @@ namespace GameZone.Attributes
 
         public MaximumFileSizeAttribute (int maximumFileSize)
         {
-            ErrorMessage = $"Maximum allowed file size is {maximumFileSize} bytes";
+            ErrorMessage = $"Maximum allowed file size is {maximumFileSize / 1024 / 1024} bytes";
             this.maximumFileSize = maximumFileSize;
         }
         protected override ValidationResult? IsValid (object? value, ValidationContext validationContext)

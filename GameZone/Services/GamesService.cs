@@ -15,14 +15,17 @@ namespace GameZone.Services
             _webHostEnvironment = webHostEnvironment;
             _imagesPath = $"{_webHostEnvironment.WebRootPath}{FileSettings.ImagesPath}";
         }
-
+        public IEnumerable<Game> GetAll ( )
+        {
+            return _context.Games.AsNoTracking();
+        }
         public async Task Create (CreateGameFormViewModel model)
         {
             string coverName = $"cover_{Guid.NewGuid()}.{Path.GetExtension(model.Cover.FileName)}";
             string coverPath = Path.Combine(_imagesPath, coverName);
             using var coverStream = File.Create(coverPath);
             await model.Cover.CopyToAsync(coverStream);
-            Game game = new ()
+            Game game = new()
             {
                 Name = model.Name,
                 Description = model.Description,
@@ -30,8 +33,10 @@ namespace GameZone.Services
                 CategoryId = model.CategoryId,
                 Devices = model.SelectedDevices.Select(deviceId => new GameDevice { DeviceId = deviceId }).ToList()
             };
-             _context.Add(game);  
-             _context.SaveChanges();
+            _context.Add(game);
+            _context.SaveChanges();
         }
+
+
     }
 }

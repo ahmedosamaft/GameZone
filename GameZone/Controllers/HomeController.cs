@@ -4,18 +4,14 @@ using System.Diagnostics;
 
 namespace GameZone.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController (IGamesService gamesService) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController (ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        private readonly IGamesService _gamesService = gamesService;
 
         public IActionResult Index ( )
         {
-            return View();
+            var games = _gamesService.GetAll();
+            return View(games);
         }
 
 

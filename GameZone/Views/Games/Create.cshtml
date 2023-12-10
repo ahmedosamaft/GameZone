@@ -20,15 +20,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="form-label mt-4"></label>
-                <select class="form-select" asp-for="CategoryId" asp-items="Model.Categories">
-                    <option>Select a Category</option>
+                <select class="form-select" asp-for="CategoryId" asp-items="Model.Categories" data-placeholder="Select a Category">
+                    <option value=""></option>
                 </select> 
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SelectedDevices" class="form-label mt-4"></label>
-                <select class="form-select" asp-for="SelectedDevices" asp-items="Model.Devices">
-                    <option>Select Devices</option>
+                <select class="form-select" asp-for="SelectedDevices" asp-items="Model.Devices" data-placeholder="Select Devices">
+                    <option value=""></option>
                 </select>
                 <span asp-validation-for="SelectedDevices" class="text-danger"></span>
             </div>
@@ -39,12 +39,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cover" class="form-label mt-4"></label>
-                <input asp-for="Cover" class="form-control">
-                <small class="form-text text-muted">Only .png, .jpg, .jpeg files are allowed with max size 1MB.</small>
+                <input asp-for="Cover" class="form-control" 
+                       data-rule-extension="@FileSettings.AllowedExtensions.Replace(".","")"
+                       data-msg-extension="Not allowed extension" 
+                       data-rule-filesize="@FileSettings.MaxImageSizeInB"
+                       data-msg-filesize="Maximum allowed size is @FileSettings.MaxImageSizeInMB MB">
+                <small class="form-text text-muted">Only @FileSettings.AllowedExtensions files are allowed with max size @(FileSettings.MaxImageSizeInMB)MB.</small>
                 <span asp-validation-for="Cover" class="text-danger d-block"></span>
             </div>
             <button type="submit" class="btn btn-primary mt-4">Save</button>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <img  alt="Cover" id="cover-preview" class="d-none" />
+        </div>
     </div>
 </form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/filesize-validator.js" asp-append-version="true"></script>
+    <script src="~/js/game-form.js" asp-append-version="true"></script>
+}

@@ -5,7 +5,10 @@ namespace GameZone.Services
 {
     public interface IGamesService
     {
-        Task Create (CreateGameFormViewModel game);
         IEnumerable<Game> GetAll ( );
+        Game? GetById (int id);
+        Task Create (CreateGameFormViewModel game);
+        Task<Game?> Edit(EditGameFormViewModel model);
+        bool Delete (int id);
     }
 }
